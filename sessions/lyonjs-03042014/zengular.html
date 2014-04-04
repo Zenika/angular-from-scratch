@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Zengular</title>
+  <link rel="stylesheet" href="bootstrap.css">
+  <script src="underscore.js"></script>
+</head>
+<body class="container text-center">
+
+<h1 class="page-header" ng-bind="lyonjs.titre" ng-click="reset()"></h1>
+
+<input type="text" ng-model="lyonjs.titre">
+
+<p>Cet exercice à pour but de démystifier le schéma suivant :</p>
+<img src="digest.png" height="300">
+
+<p>... en créant tout simplement notre propre AngularJS</p>
+<hr/>
+<p>Vous partirez de cette page vierge de tout javascript pour construire petit à petit un mini framework qui à pour
+  specs le schéma ci-dessus</p>
+<hr/>
+<b>Activer (F12) à présent votre concole JavaScript sur cette page, éditer ce même fichier et suivez le guide...</b>
+
+<script>
+  // Zengular
+  function Scope() {
+    this.$$watchers = [];
+    this.$$phase = null;
+  }
+
+  Scope.prototype.$beginPhase = function(name){
+    if (this.$$phase) {
+      throw "Vous etes deja dans la phase " + this.$$phase;
+    }
+    this.$$phase = name;
+  };
+  Scope.prototype.$clearPhase = function(){
+    this.$$phase = null;
+  };
+
+  Scope.prototype.$watch = function (watcherFn, listenerFn, byValue) {
+    var watch = {
+      watcherFn: watcherFn,
+      listenerFn: listenerFn,
+      byValue: byValue
+    };
+    this.$$watchers.push(watch);
+  }
+
+  Scope.prototype.$digest = function () {
+    var that = this;
+    var dirty;
+    var ttl = 10;
+    this.$beginPhase("$digest");
+    do {
+      dirty = false;
+      _.each(this.$$watchers, function (watcher) {
+        var newValue = watcher.watcherFn(that);
+        if (watcher.byValue ? !_.isEqual(watcher.last,newValue) : watcher.last != newValue) {
+          dirty = true;
+          watcher.listenerFn(newValue, watcher.last, that);
+          watcher.last = watcher.byValue ? _.clone(newValue) : newValue;
+        }
+      });
+      if (dirty && ttl-- == 0) {
+        this.$clearPhase();
+        throw "Petit malin corrige mnoi ca";
+      }
+    } while (dirty);
+    this.$clearPhase();
+  };
+
+  Scope.prototype.$apply = function (exprFn) {
+    try {
+      exprFn();
+    } finally {
+      this.$digest();
+    }
+  }
+
+  var $$directives = {};
+
+  var $directive = function(name, directiveFn) {
+    if(_.isFunction(directiveFn)) {
+      $$directives[name] = directiveFn;
+    }
+    return $$directives[name];
+  }
+
+  var $compile = function(element, scope) {
+    //console.log(element);
+    _.each(element.children, function(child) {
+      $compile(child, scope);
+    });
+    _.each(element.attributes, function(attribute) {
+      var directiveFn = $directive(attribute.name);
+      if(_.isFunction(directiveFn)) {
+        directiveFn(scope, element, element.attributes);
+      }
+    });
+  }
+
+  $directive('ng-bind', function(scope, element, attributes) {
+    scope.$watch(function() {
+      return eval('scope.' + attributes['ng-bind'].value);
+    }, function(newValue) {
+      element.innerHTML = newValue;
+    });
+  });
+
+  $directive('ng-model', function(scope, element, attributes) {
+    scope.$watch(function() {
+      return eval('scope.' + attributes['ng-model'].value);
+    }, function(newValue) {
+      element.value = newValue;
+    });
+
+    element.addEventListener('keyup', function() {
+      scope.$apply(function() {
+        eval('scope.' + attributes['ng-model'].value + ' = \"' + element.value + '\"');
+      });
+    });
+  });
+
+  $directive('ng-click', function(scope, element, attributes) {
+    element.addEventListener('click', function() {
+      scope.$apply(function() {
+        eval('scope.' + attributes['ng-click'].value);
+      });
+    });
+  });
+
+</script>
+
+<script>
+  var scope = new Scope();
+  scope.lyonjs = {
+    titre: "Zengular",
+    date: new Date(),
+    miseAJour: new Date(),
+    participants: []
+  };
+
+  scope.reset = function() {
+    scope.lyonjs.titre = "Zengular";
+  }
+
+  scope.$watch(function (scope) {
+    return scope.lyonjs.participants;
+  }, function (newValue, oldValue, scope) {
+    console.log("Lyonjs participants est passé de ", oldValue, " à ", newValue);
+  }, true);
+
+  scope.$watch(function (scope) {
+    return scope.lyonjs.titre;
+  }, function (newValue, oldValue, scope) {
+    console.log("Lyonjs titre est passé de ", oldValue, " à ", newValue);
+      scope.lyonjs.miseAJour = new Date();
+  });
+
+
+  $compile(document.body, scope);
+
+  scope.$apply(function () {
+    scope.lyonjs.participants.push("Matthieu");
+  });
+
+  scope.$apply(function () {
+    scope.lyonjs.participants.push("Olivier");
+  });
+
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

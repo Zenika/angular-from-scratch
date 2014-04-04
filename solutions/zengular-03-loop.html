@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Zengular</title>
+</head>
+<body style="text-align: center">
+<h1 data-zg-bind="nightclazz.sujet">Zengular</h1>
+
+<p>Cet exercice à pour but de démystifier le schéma suivant :</p>
+<img src="../angular.png">
+
+<p>... en créant tout simplement notre propre AngularJS</p>
+<hr/>
+<p>Vous partirez de cette page vierge de tout javascript pour construire petit à petit un mini framework qui à pour specs le schéma ci-dessus</p>
+<hr/>
+<b>Activer (F12) à présent votre concole JavaScript sur cette page, éditer ce même fichier et suivez le guide...</b>
+
+<script src="../underscore.js"></script>
+
+<script>
+    /* Zengular framework */
+
+    function Scope() {
+        this.$$watchers = [];
+    }
+
+    Scope.prototype.$watch = function (watcherFn, listenerFn) {
+        var watcher = {
+            watcherFn: watcherFn,
+            listenerFn: listenerFn
+        };
+        this.$$watchers.push(watcher);
+    };
+
+    Scope.prototype.$digest = function () {
+        var that = this;
+        var dirty;
+        var ttl = 10;
+        do {
+            dirty = false;
+            _.each(this.$$watchers, function (watcher) {
+                var newValue = watcher.watcherFn(that);
+                if (watcher.last !== newValue) {
+                    dirty = true;
+                    watcher.listenerFn(newValue, watcher.last, that);
+                    watcher.last = newValue;
+                }
+            });
+            if (dirty && !(ttl--)) {
+                throw "$digest est partie en boucle !"
+            }
+        } while (dirty);
+    };
+</script>
+
+<script>
+    var zenScope = new Scope();
+
+    zenScope.nightclazz = {
+        sujet: 'Zengular',
+        date: new Date(),
+        miseAJour: new Date(),
+        participants: []
+    };
+
+    console.log(zenScope.nightclazz);
+
+    zenScope.$watch(function (scope) {
+        return scope.nightclazz.miseAJour;
+    }, function (newValue, oldValue, scope) {
+        console.log('MiseAJour a été modifié de ' + oldValue + ' à ' + newValue);
+        scope.nightclazz.sujet = scope.nightclazz.sujet + '.';
+    });
+    zenScope.$watch(function (scope) {
+        return scope.nightclazz.sujet;
+    }, function (newValue, oldValue, scope) {
+        console.log('Sujet a été modifié de ' + oldValue + ' à ' + newValue);
+        scope.nightclazz.miseAJour = new Date();
+    });
+
+    console.log(zenScope);
+
+    zenScope.nightclazz.sujet = 'ZengularJS';
+
+    zenScope.$digest();
+</script>
+</body>
+</html>

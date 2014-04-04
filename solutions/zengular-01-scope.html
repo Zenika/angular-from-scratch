@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Zengular</title>
+</head>
+<body style="text-align: center">
+<h1>Zengular</h1>
+
+<p>Cet exercice à pour but de démystifier le schéma suivant :</p>
+<img src="../angular.png">
+
+<p>... en créant tout simplement notre propre AngularJS</p>
+<hr/>
+<p>Vous partirez de cette page vierge de tout javascript pour construire petit à petit un mini framework qui à pour specs le schéma ci-dessus</p>
+<hr/>
+<b>Activer (F12) à présent votre concole JavaScript sur cette page, éditer ce même fichier et suivez le guide...</b>
+
+<script>
+    /* Zengular framework */
+
+    function Scope() {
+    }
+</script>
+
+<script>
+    var zenScope = new Scope();
+
+    zenScope.nightclazz = {
+        sujet: 'Zengular',
+        date: new Date(),
+        participants: []
+    };
+
+    console.log(zenScope.nightclazz);
+</script>
+</body>
+</html>
