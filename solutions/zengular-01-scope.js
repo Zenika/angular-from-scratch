@@ -1,0 +1,3 @@
+function Scope() {
+  this.$$watchers = [];
+}
