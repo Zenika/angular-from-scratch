@@ -16,17 +16,17 @@ describe('the tests of the step 9 of the workshop', function() {
 
     spyOn(window, '$compile').and.callThrough();
 
-    var element = document.getElementById('domTestSection');
+    var element = document.getElementById('domStep09');
 
     $compile(element, scope);
 
-    expect($compile.calls.count()).toBe(3);
+    expect($compile.calls.count()).toBe(2);
 
   });
 
   it('sould $compile recurse on all nodes and launch directives function with the good parameters', function() {
 
-    var elementRoot = document.getElementById('domTestSection');
+    var elementRoot = document.getElementById('domStep09');
     var elementDirective = document.getElementById('elementWithDirective');
 
     myDirectiveTest = function() {};

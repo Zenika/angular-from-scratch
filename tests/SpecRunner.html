@@ -15,7 +15,7 @@
 
   <!-- include source files here... -->
   <!-- <script type="text/javascript" src="../zengular.js"></script> -->
-  <script type="text/javascript" src="../solutions/zengular-10-bind.js"></script>
+  <script type="text/javascript" src="../solutions/zengular-11-model.js"></script>
 
   <!-- include spec files here... -->
   <script type="text/javascript" src="zengular-tests-01-scope.js"></script>
@@ -28,14 +28,23 @@
   <script type="text/javascript" src="zengular-tests-08-directive.js"></script>
   <script type="text/javascript" src="zengular-tests-09-compile.js"></script>
   <script type="text/javascript" src="zengular-tests-10-bind.js"></script>
+  <script type="text/javascript" src="zengular-tests-11-model.js"></script>
 
 </head>
 
 <body>
 
-  <div id="domTestSection">
-    <p my-directive-test id="elementWithDirective" ng-bind="test.bind">Test p block</p>
-    <div>Test div block</div>
+  <div id="domStep09">
+    <p id="elementWithDirective" my-directive-test>Test p block</p>
+  </div>
+
+  <div id="domStep10">
+    <p id="elementWithNgBind" ng-bind="test.bind">Test p block</p>
+  </div>
+
+  <div id="domStep11">
+    <p id="elementWithNgBind" ng-bind="test.bind">Test p block</p>
+    <input type="text" id="elementWithNgModel" ng-model="test.bind">
   </div>
 
 </body>

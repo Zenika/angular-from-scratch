@@ -4,6 +4,10 @@ describe('the tests of the step 10 of the workshop', function() {
 
     scope = new Scope();
 
+    var elementWithNgBind = document.getElementById('elementWithNgBind');
+
+    elementWithNgBind.innerHTML = 'Test p block';
+
   });
 
   it('sould add a directive called ng-bind', function() {
@@ -16,11 +20,11 @@ describe('the tests of the step 10 of the workshop', function() {
 
   it('sould replace the content of the element with the data bound', function() {
 
-    var elementRoot = document.getElementById('domTestSection');
-    var elementDirective = document.getElementById('elementWithDirective');
+    var elementRoot = document.getElementById('domStep10');
+    var elementWithNgBind = document.getElementById('elementWithNgBind');
 
     //'Test p block' is the initial value in SpecRunner.html
-    expect(elementDirective.innerHTML).toBe('Test p block');
+    expect(elementWithNgBind.innerHTML).toBe('Test p block');
 
     $compile(elementRoot, scope);
 
@@ -31,7 +35,7 @@ describe('the tests of the step 10 of the workshop', function() {
       };
     });
 
-    expect(elementDirective.innerHTML).toBe(scope.test.bind);
+    expect(elementWithNgBind.innerHTML).toBe(scope.test.bind);
 
   });
 
