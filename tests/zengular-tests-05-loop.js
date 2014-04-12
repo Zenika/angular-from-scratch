@@ -1,52 +1,62 @@
 describe('the tests of the step 5 of the workshop', function() {
 
-  var scope, firstListenerCalls, secondListenerCalls;
-
   beforeEach(function() {
-    firstListenerCalls = 0, secondListenerCalls = 0;
+
     scope = new Scope();
+
   });
 
   it('should launch the loop on digest and detect listener which trigger new changes', function() {
 
+    firstListenerFn = function() {
+      scope.secondValue = 'new value';
+    }
+
+    secondListenerFn = function() {}
+
+    spyOn(window, 'firstListenerFn').and.callThrough();
+    spyOn(window, 'secondListenerFn');
+
     scope.$watch(function(scope) {
       return scope.value;
-    }, function() {
-      firstListenerCalls++;
-      scope.secondValue = 'new value';
-    });
+    }, firstListenerFn);
+
     scope.$watch(function(scope) {
       return scope.secondValue;
-    }, function() {
-      secondListenerCalls++;
-    });
+    }, secondListenerFn);
 
     scope.$apply(function() {
       scope.value = 'first value';
     });
 
-    expect(firstListenerCalls).toBe(1);
-    expect(secondListenerCalls).toBe(1);
+    expect(firstListenerFn.calls.count()).toBe(1);
+    expect(secondListenerFn.calls.count()).toBe(1);
 
   });
 
   it('should prevent the digest loop to infinitly loop (maxed at 25)', function() {
 
+    firstListenerFn = function() {
+      scope.secondValue += '2';
+    }
+
+    secondListenerFn = function() {
+      scope.value += '1';
+      if(secondListenerFn.calls.count() >= 25) {
+        throw 'listener calls to many times (' + secondListenerFn.calls.count() + ')';
+      }
+    }
+
+    spyOn(window, 'firstListenerFn').and.callThrough();
+    spyOn(window, 'secondListenerFn').and.callThrough();
+
     scope.$watch(function(scope) {
       return scope.value;
-    }, function() {
-      firstListenerCalls++;
-      scope.secondValue += '2';
-    });
+    }, firstListenerFn);
+
     scope.$watch(function(scope) {
       return scope.secondValue;
-    }, function() {
-      secondListenerCalls++;
-      scope.value += '1';
-      if(secondListenerCalls >= 25) {
-        throw 'listener calls to many times (' + secondListenerCalls + ')';
-      }
-    });
+    }, secondListenerFn);
 
     try {
       scope.$apply(function() {
@@ -54,7 +64,7 @@ describe('the tests of the step 5 of the workshop', function() {
       });
     } catch (error) {}
 
-    expect(secondListenerCalls).not.toBe(25);
+    expect(secondListenerFn.calls.count()).not.toBe(25);
 
   });
 

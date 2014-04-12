@@ -11,14 +11,13 @@ Scope.prototype.$watch = function (watcherFn, listenerFn) {
 };
 
 Scope.prototype.$digest = function () {
-  var that = this;
   _.each(this.$$watchers, function (watcher) {
-    var newValue = watcher.watcherFn(that);
+    var newValue = watcher.watcherFn(this);
     if (watcher.last !== newValue) {
-      watcher.listenerFn(newValue, watcher.last, that);
+      watcher.listenerFn(newValue, watcher.last, this);
       watcher.last = newValue;
     }
-  });
+  }.bind(this));
 };
 
 Scope.prototype.$apply = function (exprFn) {

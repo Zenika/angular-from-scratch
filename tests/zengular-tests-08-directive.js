@@ -1,11 +1,5 @@
 describe('the tests of the step 8 of the workshop', function() {
 
-  var scope;
-
-  beforeEach(function() {
-    scope = new Scope();
-  });
-
   it('sould add an object $$directives and a function $directive', function() {
 
     expect(_.isObject($$directives)).toBe(true);

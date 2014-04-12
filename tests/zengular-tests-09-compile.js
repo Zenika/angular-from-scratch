@@ -1,9 +1,9 @@
 describe('the tests of the step 9 of the workshop', function() {
 
-  var scope;
-
   beforeEach(function() {
+
     scope = new Scope();
+
   });
 
   it('sould add a function $compile', function() {
@@ -18,7 +18,7 @@ describe('the tests of the step 9 of the workshop', function() {
 
     var element = document.getElementById('domTestSection');
 
-    $compile(element);
+    $compile(element, scope);
 
     expect($compile.calls.count()).toBe(3);
 
@@ -28,13 +28,12 @@ describe('the tests of the step 9 of the workshop', function() {
 
     var elementRoot = document.getElementById('domTestSection');
     var elementDirective = document.getElementById('elementWithDirective');
-    var scope = {};
 
-    window.myDirectiveTest = function() {};
+    myDirectiveTest = function() {};
 
     spyOn(window, 'myDirectiveTest');
 
-    $directive('my-directive-test', window.myDirectiveTest);
+    $directive('my-directive-test', myDirectiveTest);
 
     $compile(elementRoot, scope);
 

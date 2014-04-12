@@ -1,16 +1,17 @@
 describe('the tests of the step 4 of the workshop', function() {
 
-  var scope, listenerCalls;
-
   beforeEach(function() {
-    listenerCalls = 0;
 
     scope = new Scope();
-    scope.$watch(function(scope) {
+
+    listenerFn = function () {};
+
+    spyOn(window, 'listenerFn');
+
+    scope.$watch(function (scope) {
       return scope.value;
-    }, function() {
-      listenerCalls++;
-    });
+    }, listenerFn);
+
   });
 
   it('sould add a function $apply in the Scope', function() {
@@ -25,7 +26,7 @@ describe('the tests of the step 4 of the workshop', function() {
       scope.value = 'first value';
     });
 
-    expect(listenerCalls).toBe(1);
+    expect(listenerFn.calls.count()).toBe(1);
 
   });
 
@@ -40,7 +41,7 @@ describe('the tests of the step 4 of the workshop', function() {
       //nothing
     }
 
-    expect(listenerCalls).toBe(1);
+    expect(listenerFn.calls.count()).toBe(1);
 
   });
 

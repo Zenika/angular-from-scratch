@@ -61,3 +61,24 @@ var $directive = function(name, directiveFn) {
   }
   return $$directives[name];
 }
+
+var $compile = function(element, scope) {
+  //console.log(element, scope);
+  _.each(element.children, function(child) {
+    $compile(child, scope);
+  });
+  _.each(element.attributes, function(attribute) {
+    var directiveFn = $directive(attribute.name);
+    if(_.isFunction(directiveFn)) {
+      directiveFn(scope, element, element.attributes);
+    }
+  });
+}
+
+$directive('ng-bind', function(scope, element, attributes) {
+  scope.$watch(function(scope) {
+    return eval('scope.' + attributes['ng-bind'].value);
+  }, function(newValue) {
+    element.innerHTML = newValue;
+  });
+});

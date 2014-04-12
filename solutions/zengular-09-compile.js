@@ -24,20 +24,19 @@ Scope.prototype.$watch = function (watcherFn, listenerFn, byValue) {
 };
 
 Scope.prototype.$digest = function () {
-  var that = this;
   var dirty;
   var ttl = 10;
   this.$$beginPhase('$digest');
   do {
     dirty = false;
     _.each(this.$$watchers, function (watcher) {
-      var newValue = watcher.watcherFn(that);
+      var newValue = watcher.watcherFn(this);
       if (watcher.byValue ? !_.isEqual(watcher.last, newValue) : watcher.last !== newValue) {
         dirty = true;
-        watcher.listenerFn(newValue, watcher.last, that);
+        watcher.listenerFn(newValue, watcher.last, this);
         watcher.last = watcher.byValue ? _.clone(newValue) : newValue;
       }
-    });
+    }.bind(this));
     if (dirty && !(ttl--)) {
       this.$$clearPhase();
       throw "$digest est partie en boucle !"

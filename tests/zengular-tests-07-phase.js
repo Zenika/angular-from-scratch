@@ -1,10 +1,9 @@
 describe('the tests of the step 7 of the workshop', function() {
 
-  var scope, listenerCalls, firstListenerCalls, secondListenerCalls;
-
   beforeEach(function() {
-    listenerCalls = 0, firstListenerCalls = 0, secondListenerCalls = 0;
+
     scope = new Scope();
+
   });
 
   it('sould add a function $$beginPhase and another $$clearPhase in the Scope', function() {
@@ -17,15 +16,18 @@ describe('the tests of the step 7 of the workshop', function() {
 
   it('should prevent to launch a digest while one is already going (maxed at 25)', function() {
 
-    scope.$watch(function(scope) {
-      return scope.value;
-    }, function() {
-      listenerCalls++;
-      if(listenerCalls >= 25) {
+    listenerFn = function () {
+      if(listenerFn.calls.count() >= 25) {
         throw 'listener calls to many times (' + listenerCalls + ')';
       }
       scope.$digest();
-    });
+    };
+
+    spyOn(window, 'listenerFn').and.callThrough();
+
+    scope.$watch(function (scope) {
+      return scope.value;
+    }, listenerFn);
 
     try {
       scope.$apply(function() {
@@ -33,17 +35,19 @@ describe('the tests of the step 7 of the workshop', function() {
       });
     } catch (error) {}
 
-    expect(listenerCalls).not.toBe(25);
+    expect(listenerFn.calls.count()).not.toBe(25);
 
   });
 
   it('should clear phase to be able to use $watch multiple times', function() {
 
-    scope.$watch(function(scope) {
+    listenerFn = function () {};
+
+    spyOn(window, 'listenerFn');
+
+    scope.$watch(function (scope) {
       return scope.value;
-    }, function() {
-      listenerCalls++;
-    });
+    }, listenerFn);
 
     scope.$apply(function() {
       scope.value = 'first value';
@@ -53,27 +57,32 @@ describe('the tests of the step 7 of the workshop', function() {
       scope.value = 'second value';
     });
 
-    expect(listenerCalls).toBe(2);
+    expect(listenerFn.calls.count()).toBe(2);
 
   });
 
   it('should clear phase to be able to use $watch multiple times even in case off digest loop failed', function() {
 
-    scope.$watch(function(scope) {
-      return scope.value;
-    }, function() {
-      firstListenerCalls++;
+    firstListenerFn = function() {
       scope.secondValue += '2';
-    });
-    scope.$watch(function(scope) {
-      return scope.secondValue;
-    }, function() {
-      secondListenerCalls++;
+    }
+
+    secondListenerFn = function() {
       scope.value += '1';
-      if(secondListenerCalls >= 25) {
+      if(secondListenerFn.calls.count >= 25) {
         throw 'listener calls to many times (' + secondListenerCalls + ')';
       }
-    });
+    }
+
+    spyOn(window, 'secondListenerFn').and.callThrough();
+
+    scope.$watch(function(scope) {
+      return scope.value;
+    }, firstListenerFn);
+
+    scope.$watch(function(scope) {
+      return scope.secondValue;
+    }, secondListenerFn);
 
     try {
       scope.$apply(function() {
@@ -82,9 +91,9 @@ describe('the tests of the step 7 of the workshop', function() {
     } catch (error) {}
 
     //Previous test verifying that the digest loop has not failed
-    expect(secondListenerCalls).not.toBe(25);
+    expect(secondListenerFn.calls.count()).not.toBe(25);
 
-    var callsAfterLoop = secondListenerCalls;
+    var callsAfterLoop = secondListenerFn.calls.count();
 
     try {
       scope.$apply(function() {
@@ -93,7 +102,7 @@ describe('the tests of the step 7 of the workshop', function() {
     } catch (error) {}
 
     //New test verifying that after a digest loop failed, the digest can restart
-    expect(secondListenerCalls).not.toBe(callsAfterLoop);
+    expect(secondListenerFn.calls.count()).not.toBe(callsAfterLoop);
 
   });
 

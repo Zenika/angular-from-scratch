@@ -1,17 +1,23 @@
 describe('the tests of the step 3 of the workshop', function() {
 
-  var listenerCalls;
-
   beforeEach(function() {
-    listenerCalls = 0;
+
+    firstValue = 'first value';
 
     scope = new Scope();
-    scope.value = 'first value';
-    scope.$watch(function(scope) {
+    scope.value = firstValue;
+
+    watcherFn = function (scope) {
       return scope.value;
-    }, function() {
-      listenerCalls++;
-    });
+    }
+
+    listenerFn = function () {};
+
+    spyOn(window, 'watcherFn').and.callThrough();
+    spyOn(window, 'listenerFn');
+
+    scope.$watch(watcherFn, listenerFn);
+
   });
 
   it('sould add a function $digest in the Scope', function() {
@@ -24,7 +30,17 @@ describe('the tests of the step 3 of the workshop', function() {
 
     scope.$digest();
 
-    expect(listenerCalls).toBe(1);
+    expect(listenerFn.calls.count()).toBe(1);
+
+  });
+
+  it('should launch the watcher and the listener with the right arguments', function() {
+
+    scope.$digest();
+
+    expect(watcherFn).toHaveBeenCalledWith(scope);
+
+    expect(listenerFn).toHaveBeenCalledWith(firstValue, undefined, scope);
 
   });
 
@@ -32,7 +48,7 @@ describe('the tests of the step 3 of the workshop', function() {
 
     scope.$digest();
 
-    expect(listenerCalls).toBe(1);
+    expect(listenerFn.calls.count()).toBe(1);
 
     scope.value = "second value";
 
@@ -40,10 +56,8 @@ describe('the tests of the step 3 of the workshop', function() {
     scope.$digest();
     scope.$digest();
 
-    expect(listenerCalls).toBe(2);
+    expect(listenerFn.calls.count()).toBe(2);
 
   });
-
-  //TODO test for arguments passed to listener
 
 });
