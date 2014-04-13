@@ -4,10 +4,8 @@ describe('the tests of the step 11 of the workshop', function() {
 
     scope = new Scope();
 
-    var elementWithNgBind = document.getElementById('elementWithNgBind');
     var elementNgModel = document.getElementById('elementWithNgModel');
 
-    elementWithNgBind.innerHTML = 'Test p block';
     elementNgModel.value = '';
 
   });

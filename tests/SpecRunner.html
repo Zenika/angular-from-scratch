@@ -15,7 +15,7 @@
 
   <!-- include source files here... -->
   <!-- <script type="text/javascript" src="../zengular.js"></script> -->
-  <script type="text/javascript" src="../solutions/zengular-11-model.js"></script>
+  <script type="text/javascript" src="../solutions/zengular-12-click.js"></script>
 
   <!-- include spec files here... -->
   <script type="text/javascript" src="zengular-tests-01-scope.js"></script>
@@ -29,6 +29,7 @@
   <script type="text/javascript" src="zengular-tests-09-compile.js"></script>
   <script type="text/javascript" src="zengular-tests-10-bind.js"></script>
   <script type="text/javascript" src="zengular-tests-11-model.js"></script>
+  <script type="text/javascript" src="zengular-tests-12-click.js"></script>
 
 </head>
 
@@ -43,8 +44,11 @@
   </div>
 
   <div id="domStep11">
-    <p id="elementWithNgBind" ng-bind="test.bind">Test p block</p>
     <input type="text" id="elementWithNgModel" ng-model="test.bind">
+  </div>
+
+  <div id="domStep12">
+    <p id="elementWithNgClick" ng-click="test.click()">Test p block</p>
   </div>
 
 </body>
