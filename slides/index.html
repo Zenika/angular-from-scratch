@@ -67,7 +67,7 @@
     &lt;head>
         &lt;script src="angular.js">&lt;/script>
     &lt;/head>
-    &lt;body>
+    &lt;body ng-app>
         &lt;h1 ng-bind="hello">&lt;/h1>
         &lt;input type="text" ng-model="hello">
     &lt;/body>
@@ -106,7 +106,7 @@
 				<section>
 					<img src="img/jasmine.jpeg">
 					<p>Une suite de test est prète pour <strong>valider</strong> chaque étape</p>
-					<p>Raffraichir simplement : <a href="#">test/SpecRunner.html</a></p>
+					<p>Raffraichir simplement : <a href="#">tests/SpecRunner.html</a></p>
 					<img src="img/jasmine-screen.png">
 				</section>
         <section>
@@ -230,9 +230,9 @@
 					<ul>
 						<li>Le framework
 							<ul>
-								<li>Définir si une "digestion" à occasionner une modification</li>
+								<li>Définir si une "digestion" a occasionné une modification</li>
 								<li>Boucler la "digestion" tant qu'il y a des modifications</li>
-								<li>Mettre en place un garde fou contre les boucles infinie</li>
+								<li>Mettre en place un garde fou contre les boucles infinie (ttl)</li>
 							</ul>
 						</li>
 						<li>Utilisation du framework
@@ -309,12 +309,13 @@
 								<li>Définir une fonction qui parcoure récusivement tous les éléments du DOM</li>
 								<li>Pour chaque élément, parcourir ses attributs</li>
 								<li>Si un attribut correspond au nom d'une directive, la lancer</li>
+								<li>Les paramètres passé à la directives sont scope, element et attributes</li>
 							</ul>
 						</li>
 						<li>Utilisation du framework
 							<ul>
 								<li>Définir une directive avec la fonction $directive</li>
-								<li>Ajouter dans le DOM (HTML) l'attribut nécessaire pour constaté qu'elle est lancée</li>
+								<li>Ajouter dans le DOM (HTML) l'attribut nécessaire pour constater qu'elle est lancée</li>
 							</ul>
 						</li>
 					</ul>
