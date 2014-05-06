@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Zengular</title>
+  <link rel="stylesheet" href="bootstrap.css">
+</head>
+<body class="container text-center">
+
+<h1 class="page-header" ng-bind="session">{{session}}</h1>
+<input type="text" ng-model="session">
+
+<p>Cet exercice à pour but de démystifier le schéma suivant :</p>
+<img src="digest.png" height="300">
+
+<p>... en créant tout simplement notre propre AngularJS</p>
+<hr/>
+<p>Vous partirez de cette page vierge de tout javascript pour construire petit à petit un mini framework qui à pour
+  specs le schéma ci-dessus</p>
+<hr/>
+<b>Activer (F12) à présent votre concole JavaScript sur cette page, éditer ce même fichier et suivez le guide...</b>
+
+<script src="underscore.js"></script>
+<!--<script src="zengular.js"></script>-->
+
+<script>
+  function Scope(){
+    this.$$watchers = []
+  }
+
+  Scope.prototype.$watch = function(watcherFn, listenerFn, byValue){
+    var watch = {
+      watcherFn: watcherFn,
+      listenerFn: listenerFn,
+      byValue: byValue
+    };
+    this.$$watchers.push(watch);
+  }
+
+  Scope.prototype.$digest = function(){
+    var self = this;
+    var dirty = false;
+    var ttl = 10;
+    do {
+      dirty = false;
+      _.each(this.$$watchers, function(watcher){
+        var newValue = watcher.watcherFn(self);
+        if (watcher.byValue ? !_.isEqual(watcher.last, newValue) : watcher.last !== newValue) {
+          watcher.listenerFn(newValue, watcher.last, self);
+          watcher.last = watcher.byValue ? _.clone(newValue) : newValue;
+          dirty = true;
+        }
+      });
+      if (dirty && !(ttl--)) {
+        throw "ton digest est partie en boucle"
+      }
+    } while(dirty);
+  }
+
+  Scope.prototype.$apply = function(exprFn){
+    try {
+      exprFn();
+    } finally {
+      this.$digest();
+    }
+  }
+
+
+  $$directives = {};
+
+  $directive = function(name, directiveFn) {
+    if(directiveFn) {
+      $$directives[name] = directiveFn;
+    }
+    return $$directives[name];
+  }
+
+  $compile = function(element, scope) {
+
+    _.each(element.children, function(child) {
+      $compile(child, scope);
+    });
+
+    _.each(element.attributes, function(attribute) {
+      var directive = $directive(attribute.name);
+      if(directive) {
+        directive(scope, element, element.attributes);
+      }
+    });
+
+  }
+
+
+  $directive('ng-bind', function(scope, element, attributes) {
+    scope.$watch(function() {
+      return scope[attributes['ng-bind'].value];
+    }, function(newValue) {
+      element.innerHTML = newValue;
+    })
+  });
+
+  $directive('ng-model', function(scope, element, attributes) {
+    scope.$watch(function() {
+      return scope[attributes['ng-model'].value];
+    }, function(newValue) {
+      element.value = newValue;
+    });
+
+    element.addEventListener('keyup', function() {
+      scope.$apply(function() {
+        scope[attributes['ng-model'].value] = element.value;
+      });
+    });
+  });
+
+
+
+</script>
+
+<script>
+
+  var scope = new Scope();
+
+
+
+
+  $compile(document.body, scope);
+
+
+  scope.date = new Date();
+  scope.students = [];
+
+  scope.$apply(function(){
+    scope.session = "AngularJS from scratch";
+  });
+
+  scope.$apply(function(){
+    scope.session = "AngularJS from scratch trop bien !";
+  });
+
+
+</script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

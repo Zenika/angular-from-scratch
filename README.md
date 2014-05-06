@@ -21,4 +21,16 @@ If we planned this presentation as a workshop. We played it and will played it i
 * 3/6/14 workshop at Zenika Paris (NightClass AngularJS avancé)
 * 4/3/14 live coding at [LyonJS Meetup](http://lyonjs.org/)
 * 4/16/14 workshop at [DevoxxFR](http://www.devoxx.fr/)
+* 4/25/14 live coding at [M6Web](http://tech.m6web.fr/)
 * 4/30/14 workshop at [Mix-IT](http://www.mix-it.fr/)
+* 5/22/14 workshop at [BreizhCamp](http://www.breizhcamp.org/)
+* You next? Contact us on Twitter [@Swiip](https://twitter.com/Swiip) or [@olivierhuber](https://twitter.com/olivierhuber)
+
+## Blog posts
+
+There are the blog posts which have talked about Angular From Scratch
+
+* [@Elrykk](https://twitter.com/#!/Elrykk): [Comprendre AngularJS en le recodant à Devoxx France 2014](http://javaetmoi.com/2014/04/lab-angularjs-from-scratch-devoxx-france-2014/)
+* [@dgageot](https://twitter.com/#!/dgageot): [AngularJS from scratch, in CoffeeScript, at Mix-IT](http://blog.javabien.net/2014/04/30/angularjs-from-scratch-in-coffeescript-at-mix-it/)
+* [@k33g_org](https://twitter.com/k33g_org/): [Mix-it-2014](http://k33g.github.io/2014/05/04/MIXIT-2014.html)
+* You write about us? Let us now: [@Swiip](https://twitter.com/Swiip) or [@olivierhuber](https://twitter.com/olivierhuber)
