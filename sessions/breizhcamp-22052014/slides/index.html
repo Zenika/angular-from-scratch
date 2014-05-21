@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Angular From Scratch</title>
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+	</head>
+
+	<body ng-app="zenTimer">
+
+		<div class="reveal">
+
+			<!-- <p class="timer" ng-init="minutes = 12" ng-bind="left | date:'mm:ss'" ng-click="start()"></p> -->
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section data-background="img/Slide_first.png">
+					<img src="img/angularjs-logo.png" height="300">
+					<h2>AngularJS <strong>From Scratch</strong></h2>
+					<h3>http://github.com/Zenika/angular-from-scratch</h3>
+				</section>
+
+				<section data-background="img/Slide_first.png">
+					<h3>Olivier <strong>Huber</strong></h3>
+					<p><a href="https://twitter.com/ZenikaIT"><img class="icon" src="img/zenika.jpeg"> @ZenikaIT</a></p>
+					<p><a href="https://twitter.com/OlivierHuber"><img class="icon" src="img/lego.jpeg"> @OlivierHuber</a></p>
+					<h3>Matthieu <strong>Lux</strong></h3>
+					<p><a href="https://twitter.com/ZenikaIT"><img class="icon" src="img/zenika.jpeg"> @ZenikaIT</a></p>
+					<p><a href="https://twitter.com/LyonJS"><img class="icon" src="img/lyonjs.png"> @LyonJS</a></p>
+					<p><a href="https://twitter.com/Swiip"><img class="icon" src="img/swiip.jpg"> @Swiip</a></p>
+				</section>
+
+				<section>
+					<h2>References</h2>
+					<br>
+					<h3><a href="http://teropa.info/build-your-own-angular">Build Your Own Angular<strong>JS</strong></a></h3>
+					<p><a href="https://twitter.com/teropa"><img class="icon" src="img/teropa.jpeg"> @teropa</a></p>
+					<h3><a href="https://github.com/timruffles/cute"><strong>Cute</strong>: A small, readable edit of AngularJS</a></h3>
+					<p><a href="https://twitter.com/timruffles"><img class="icon" src="img/timruffles.jpeg"> @timruffles</a></p>
+				</section>
+
+				<section>
+					<h2>Avec <strong>Angular</strong>...</h2>
+					<pre><code class="html" data-trim>
+&lt;html>
+    &lt;head>
+        &lt;script src="angular.js">&lt;/script>
+    &lt;/head>
+    &lt;body ng-app>
+        &lt;h1 ng-bind="hello">&lt;/h1>
+        &lt;input type="text" ng-model="hello">
+    &lt;/body>
+&lt;/html>
+					</code></pre>
+          <h3 ng-init="hello = 'Hello BreizhCamp !'" ng-bind="hello"></h3>
+          <input ng-model="hello" style="font-size: 30px">
+				</section>
+				<section>
+					<h2>From <strong>Scratch</strong>?</h2>
+					<pre><code class="html" data-trim>
+&lt;html>
+    &lt;head>
+        &lt;script> ? ? ? &lt;/script>
+    &lt;/head>
+    &lt;body>
+        &lt;h1 ng-bind="hello">&lt;/h1>
+        &lt;input type="text" ng-model="hello">
+    &lt;/body>
+&lt;/html>
+					</code></pre>
+				</section>
+
+        <section>
+          <h2>Le <strong>workshop</strong></h2>
+					<pre><code class="html" data-trim>
+&lt;html>
+  &lt;body>
+    &lt;h1 ng-bind="hello">&lt;/h1>
+    &lt;input type="text" ng-model="hello">
+    &lt;script src="zengular.js">&lt;/script>
+  &lt;/body>
+&lt;/html>
+          </code></pre>
+        </section>
+				<section>
+					<img src="img/jasmine.jpeg">
+					<p>Une suite de test est prète pour <strong>valider</strong> chaque étape</p>
+					<p>Raffraichir simplement : <a href="#">tests/SpecRunner.html</a></p>
+					<img src="img/jasmine-screen.png">
+				</section>
+        <section>
+          <h2>Chrome <strong>Dev Tools</strong></h2>
+          <img src="img/slide8.jpg">
+          <p>La majorité du workshop se passera dans la <strong>console</strong></p>
+        </section>
+        <section>
+          <img src="img/underscore-js.png">
+          <blockquote>"A JavaScript <strong>library</strong> that provides a whole mess of useful <strong>functional</strong> programming helpers without extending any built-in objects."</blockquote>
+					<pre><code class="html" data-trim>
+&lt;script src="underscore.js">&lt;/script>
+&lt;script>
+  var a = [1, 2, 3];
+  _.each(a, function(num){
+    console.log(num);
+  });
+&lt;/script>
+          </code></pre>
+        </section>
+
+				<section>
+					<h2>Le <strong>$scope</strong></h2>
+					<ul>
+						<li>Correspond au modèle de données de l'application</li>
+						<li>Stocke les données en JavaScript standard</li>
+						<li>Propose <strong>$watch</strong> pour surveiller des changements</li>
+						<li>Propose <strong>$apply</strong> pour propager des changements</li>
+						<li>Implémente une <strong>$digest</strong> loop Il est au coeur de la magie</li>
+					</ul>
+				</section>
+				<section>
+					<img src="img/digest.png">
+				</section>
+
+				<section>
+					<h2>Étape <strong>1</strong></h2>
+					<h2>Le <strong>$scope</strong></h2>
+					<!--<blockquote>"Le <strong>scope</strong> est un simple <strong>Plain Old JavaScript Object</strong> sur lequel on attache autant de propriétés que l'on a besoin"</blockquote>
+					<p>&nbsp;</p>-->
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir l'objet scope</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Instancier un scope</li>
+								<li>Y insérer des données</li>
+								<li>Les afficher avec console.log</li>
+							</ul>
+						</li>
+					</ul>
+
+				</section>
+
+				<section>
+					<h2>Étape <strong>2</strong></h2>
+					<h2>Scope.<strong>$watch</strong></h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Ajouter un tableau "$$watchers" dans le scope</li>
+								<li>Définir la fonction $watch dans le prototype du scope</li>
+								<li>La fonction $watch ajoute un watcher dans la liste</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Utiliser la fonction $watch pour surveiller une donnée</li>
+								<li>Vérifier qu'elle est bien ajoutée à la liste des watchers</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>3</strong></h2>
+					<h2>Scope.<strong>$digest</strong></h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir la fonction $digest dans le prototype du scope</li>
+								<li>La fonction $digest itère sur les watchers enregistré</li>
+								<li>Pour chacun, comparer la valeur avec la précédente</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Utiliser la fonction $watch pour surveiller une donnée</li>
+								<li>Lancer la fonction $digest pour déclencher un listener</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>4</strong></h2>
+					<h2>Scope.<strong>$apply</strong></h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir la fonction $apply dans le prototype du scope</li>
+								<li>La fonction $apply prend une fonction en argument</li>
+								<li>$apply lance $digest quoi qu'il arrive</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Utiliser la fonction $watch pour surveiller une donnée</li>
+								<li>Réaliser une modification sur le scope via $apply</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>5</strong></h2>
+					<h2>Digest <strong>loop</strong> !</h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir si une "digestion" a occasionné une modification</li>
+								<li>Boucler la "digestion" tant qu'il y a des modifications</li>
+								<li>Mettre en place un garde fou contre les boucles infinie (ttl)</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Réaliser un $watch qui déclenche une nouvelle modification</li>
+								<li>Réaliser deux $watch qui créent une boucle infinie</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>6</strong></h2>
+					<h2>Let's get <strong>dirty</strong> !</h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Ajouter une propriété byValue dans les watchers</li>
+								<li>Si byValue est true, réaliser un clone de la valeur</li>
+								<li>Toujours byValue est true, réaliser une comparaison en profondeur (Underscore est votre ami)</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Réaliser une modification dans le scope détectable seulement byValue</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>7</strong></h2>
+					<h2><strong>Phase</strong> checking</h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Ajouter deux fonctions $$beginPhase et $$clearPhase</li>
+								<li>Utiliser $$beginPhase au début d'un digest</li>
+								<li>Utiliser $$clearPhase dans les deux cas de fin de digest</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Réaliser un $watch dont le listener lance un autre $watch</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>8</strong></h2>
+					<h2>Place aux <strong>directives</strong></h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir un objet $$directives déstiné à contenir les directives</li>
+								<li>Définir une fonction $directive qui fait à la fois getter et setter pour les $$directives</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Utiliser $directive pour vérifier que la directive se trouve dans $$directives</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>9</strong></h2>
+					<h2><strong>$compile</strong> le DOM</h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir une fonction qui parcoure récusivement tous les éléments du DOM</li>
+								<li>Pour chaque élément, parcourir ses attributs</li>
+								<li>Si un attribut correspond au nom d'une directive, la lancer</li>
+								<li>Les paramètres passé à la directives sont scope, element et attributes</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Définir une directive avec la fonction $directive</li>
+								<li>Ajouter dans le DOM (HTML) l'attribut nécessaire pour constater qu'elle est lancée</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>10</strong></h2>
+					<h2>ng-<strong>bind</strong></h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir une directive nommée ng-bind</li>
+								<li>Faire un $watch sur la donnée pointé par la valeur de l'attribut ng-bind</li>
+								<li>Lors d'un changement de valeur, modifié le DOM en conséquence</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Modifier le document HTML pour utilier la directive ng-bind</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>11</strong></h2>
+					<h2>ng-<strong>model</strong></h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir une directive nommée ng-model</li>
+								<li>Faire un $watch sur la donnée pointé par la valeur de l'attribut ng-model</li>
+								<li>Lors d'un changement de valeur, modifié la valeur en conséquence</li>
+								<li>Surveiller l'évènement keyup du champ</li>
+								<li>Sur cet évènement, faire un $apply de la nouvelle valeur</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Modifier le document HTML pour utilier la directive ng-model</li>
+								<li><strong>Ça y est !</strong> L'objectif est atteint !</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Étape <strong>12</strong></h2>
+					<h2><strong>Bonus :</strong> ng-click</h2>
+					<ul>
+						<li>Le framework
+							<ul>
+								<li>Définir une directive nommée ng-click</li>
+								<li>Surveiller l'évènement click de l'élement</li>
+								<li>Sur cet évènement, faire un $apply de la valeur de l'attribut</li>
+							</ul>
+						</li>
+						<li>Utilisation du framework
+							<ul>
+								<li>Modifier le document HTML pour utilier la directive ng-click</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>Bravo &<br><strong>Merci</strong> !</h1>
+				</section>
+
+				<section data-background="img/Slide_last.png">
+				</section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+    <script src="js/angular.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+		<script>
+		  angular.module("zenTimer", []).run(function inject($rootScope, $interval) {
+		    $rootScope.left = 0;
+		    var stop;
+
+		    $rootScope.start = function () {
+		      if (angular.isDefined(stop)) {
+		        $interval.cancel(stop);
+		      }
+		      var start = new Date();
+		      var countdown = $rootScope.minutes * 60 * 1000;
+		      stop = $interval(function () {
+		        var elapsed = new Date() - start;
+		        $rootScope.left = countdown - elapsed;
+		        if ($rootScope.left <= 1000) {
+		          $interval.cancel(stop);
+		        }
+		      }, 100);
+		      stop.finally(function () {
+		        $rootScope.left = 0;
+		      });
+		    };
+		  });
+		</script>
+
+	</body>
+</html>
