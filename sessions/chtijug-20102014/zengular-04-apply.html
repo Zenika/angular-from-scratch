@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="utf-8">
+    <title>Zengular</title>
+</head>
+<body style="text-align: center">
+
+<h1 ng-bind="titre" ng-click="titre='Ch\'ti JUG'">Zengular</h1>
+<input type="text" ng-model="titre">
+
+<p>
+    <img src="angular.png">
+</p>
+
+<script src="underscore.js"></script>
+
+<script> //Zenguar
+    function Scope(){
+        this.$$watchers = [];
+    }
+
+    Scope.prototype.$watch = function(watchFn, listenerFn){
+        var watch = {
+            "watchFn":watchFn,
+            "listenerFn":listenerFn
+        };
+        this.$$watchers.push(watch);
+    };
+
+    Scope.prototype.$digest = function(){
+        var self=this;
+        _.each(this.$$watchers, function(watch){
+            var newValue = watch.watchFn(self);
+            if (watch.last != newValue) {
+                watch.listenerFn(newValue, watch.last, self);
+                watch.last = newValue;
+            }
+        });
+    };
+
+    Scope.prototype.$apply = function(exprFn){
+        try {
+            exprFn(this);
+        } finally {
+            this.$digest();
+        }
+    };
+</script>
+
+<script> //Debug - console.log
+    var scope = new Scope();
+    scope.titre = "Ch'ti JUG";
+    scope.total = 200;
+
+    scope.$watch(function(scope){
+        return scope.titre;
+    }, function(newValue, oldValue){
+        console.log("titre à changé ! de",oldValue," à ",newValue);
+    });
+
+    scope.$apply(function(scope){
+        scope.titre = "Zengular";
+    });
+
+    console.log(scope);
+</script>
+
+</body>
+</html>

@@ -24,6 +24,7 @@ If we planned this presentation as a workshop. We played it and will played it i
 * 4/25/14 live coding at [M6Web](http://tech.m6web.fr/)
 * 4/30/14 workshop at [Mix-IT](http://www.mix-it.fr/)
 * 5/22/14 workshop at [BreizhCamp](http://www.breizhcamp.org/)
+* 10/20/14 live coding at [Ch'ti JUG](http://chtijug.org/session-angularjs-from-scratch/)
 * You next? Contact us on Twitter [@Swiip](https://twitter.com/Swiip) or [@olivierhuber](https://twitter.com/olivierhuber)
 
 ## Blog posts

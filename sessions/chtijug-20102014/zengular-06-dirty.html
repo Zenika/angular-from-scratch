@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="utf-8">
+    <title>Zengular</title>
+</head>
+<body style="text-align: center">
+
+<h1 ng-bind="titre" ng-click="titre='Ch\'ti JUG'">Zengular</h1>
+<input type="text" ng-model="titre">
+
+<p>
+    <img src="angular.png">
+</p>
+
+<script src="underscore.js"></script>
+
+<script> //Zenguar
+    function Scope(){
+        this.$$watchers = [];
+    }
+
+    Scope.prototype.$watch = function(watchFn, listenerFn, byValue){
+        var watch = {
+            "watchFn":watchFn,
+            "listenerFn":listenerFn,
+            "byValue": byValue
+        };
+        this.$$watchers.push(watch);
+    };
+
+    Scope.prototype.$digest = function(){
+        var self=this;
+        var ttl=10;
+        do {
+            dirty=false;
+            _.each(this.$$watchers, function (watch) {
+                var newValue = watch.watchFn(self);
+                if (watch.byValue ? !_.isEqual(watch.last,newValue) : watch.last != newValue) {
+                    dirty=true;
+                    watch.listenerFn(newValue, watch.last, self);
+                    watch.last = watch.byValue ? _.clone(newValue) : newValue;
+                }
+            });
+            if (dirty && !(ttl--)) {
+                throw "$digest est partie en boucle !"
+            }
+        } while(dirty);
+    };
+
+    Scope.prototype.$apply = function(exprFn){
+        try {
+            exprFn(this);
+        } finally {
+            this.$digest();
+        }
+    };
+</script>
+
+<script> //Debug - console.log
+    var scope = new Scope();
+    scope.titre = "Ch'ti JUG";
+    scope.total = 200;
+    scope.participants = [];
+
+    scope.$watch(function(scope){
+        return scope.participants;
+    }, function(newValue, oldValue, scope){
+        console.log("participants à changé ! de",oldValue," à ",newValue);
+    }, true);
+
+    scope.$apply(function(scope){
+        scope.participants.push('Olivier');
+    });
+    scope.$apply(function(scope){
+        scope.participants.push('Cyril');
+    });
+</script>
+
+</body>
+</html>

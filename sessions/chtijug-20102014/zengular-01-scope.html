@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <meta charset="utf-8">
+    <title>Zengular</title>
+</head>
+<body style="text-align: center">
+
+<h1 ng-bind="titre" ng-click="titre='Ch\'ti JUG'">Zengular</h1>
+<input type="text" ng-model="titre">
+
+<p>
+    <img src="angular.png">
+</p>
+
+<script> //Zenguar
+    function Scope(){}
+</script>
+
+<script> //Debug - console.log
+    var scope = new Scope();
+    scope.titre = "Ch'ti JUG";
+    scope.total = 200;
+
+    console.log(scope);
+</script>
+
+</body>
+</html>
